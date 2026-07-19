@@ -258,6 +258,48 @@
     white-space: pre-line;
   }
 
+  .chip-row {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin-bottom: 18px;
+  }
+
+  .reason-chip {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 0.72rem;
+    letter-spacing: 0.02em;
+    padding: 6px 12px;
+    border-radius: 20px;
+    border: 1px solid var(--stamp-color, var(--green-ok));
+    color: var(--stamp-color, var(--green-ok));
+    background: color-mix(in srgb, var(--stamp-color, var(--green-ok)) 12%, transparent);
+    white-space: nowrap;
+  }
+
+  .action-box {
+    margin-top: 18px;
+    padding: 14px 16px;
+    border-radius: 8px;
+    background: var(--surface-2);
+    border-left: 3px solid var(--stamp-color, var(--green-ok));
+  }
+
+  .action-label {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 0.68rem;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--ink-dim);
+    margin-bottom: 6px;
+  }
+
+  .action-text {
+    font-size: 0.92rem;
+    line-height: 1.6;
+    color: var(--ink);
+  }
+
   footer {
     margin-top: 48px;
     display: flex;
@@ -315,11 +357,27 @@
 
       <div class="result-wrap">
         <div class="stamp" style="--stamp-color: {{ stamp_color }};">{{ stamp_word }}</div>
-        <div class="verdict-body">
+        <div class="verdict-body" style="--stamp-color: {{ stamp_color }};">
           <div class="verdict-title" style="color: {{ stamp_color }};">{{ result.verdict }}</div>
           <div class="verdict-score">RISK SCORE — {{ result.score }}</div>
-          <div class="why-label">Why</div>
+
+          {% if chips %}
+          <div class="chip-row" style="--stamp-color: {{ stamp_color }};">
+            {% for chip in chips %}
+              <span class="reason-chip" style="--stamp-color: {{ stamp_color }};">{{ chip }}</span>
+            {% endfor %}
+          </div>
+          {% endif %}
+
+          <div class="why-label">Why we flagged this</div>
           <div class="why-list">{{ explanation }}</div>
+
+          {% if action %}
+          <div class="action-box" style="--stamp-color: {{ stamp_color }};">
+            <div class="action-label">What should I do?</div>
+            <div class="action-text">{{ action }}</div>
+          </div>
+          {% endif %}
         </div>
       </div>
     {% endif %}

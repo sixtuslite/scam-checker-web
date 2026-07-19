@@ -176,6 +176,41 @@ def check_message(message: str) -> dict:
     }
 
 
+def get_reason_chips(result: dict) -> list:
+    """Returns short 2-3 word labels for each matched category, for chip display."""
+    if not result["categories_matched"]:
+        return []
+
+    chip_labels = {
+        "urgency_network_excuse": "Urgency pressure",
+        "kinship_trust_request": "False trust language",
+        "recharge_card_bait": "Recharge card trick",
+        "stranded_travel_bait": "Stranded/travel bait",
+        "money_request_small_specific": "Money request",
+        "health_emergency_bait": "Health emergency bait",
+        "fake_bank_alert": "Bank impersonation",
+        "suspicious_url": "Suspicious link",
+        "religious_closing": "Guilt/blessing closer",
+        "delivery_logistics_hook": "Fake delivery fee",
+        "too_good_to_be_true": "Too good to be true",
+        "romance_escalation": "Romance escalation",
+    }
+    return [chip_labels.get(cat, cat) for cat in result["categories_matched"]]
+
+
+def what_to_do(result: dict) -> str:
+    """Returns a short recommended action based on the verdict level."""
+    verdict = result["verdict"]
+    if "HIGH RISK" in verdict:
+        return "Don't respond, click any link, or call the number in this message. Verify through the official app or a number you already trust."
+    elif "SUSPICIOUS" in verdict:
+        return "Pause before acting. Confirm this with the person or organisation directly, using a channel you already trust."
+    elif "LOW RISK" in verdict:
+        return "No major red flags, but stay alert if it asks for money, codes, or personal details."
+    else:
+        return "No known scam patterns detected. Still verify anything involving money or personal details."
+
+
 def explain(result: dict) -> str:
     if not result["categories_matched"]:
         return "No known scam patterns detected in this message."
