@@ -1,0 +1,332 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Naija Scam Checker</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,600;9..144,700&family=Inter:wght@400;500;600&family=IBM+Plex+Mono:wght@500;600&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #0F2318;
+    --surface: #16301F;
+    --surface-2: #1C3826;
+    --line: #2A4A34;
+    --ink: #EDEAE0;
+    --ink-dim: #9AB0A0;
+    --gold: #D9A441;
+    --gold-dim: #B5893A;
+    --red: #C0392B;
+    --amber: #C98A2E;
+    --green-ok: #4E9463;
+  }
+
+  * { box-sizing: border-box; }
+
+  body {
+    margin: 0;
+    background: var(--bg);
+    background-image:
+      radial-gradient(circle at 15% 0%, rgba(217,164,65,0.06), transparent 45%),
+      radial-gradient(circle at 85% 100%, rgba(78,148,99,0.08), transparent 50%);
+    color: var(--ink);
+    font-family: 'Inter', sans-serif;
+    min-height: 100vh;
+    display: flex;
+    justify-content: center;
+    padding: 56px 20px 40px;
+  }
+
+  .sheet {
+    width: 100%;
+    max-width: 620px;
+  }
+
+  .eyebrow {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 0.72rem;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--gold-dim);
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 14px;
+  }
+
+  .eyebrow::before {
+    content: "";
+    width: 7px;
+    height: 7px;
+    border-radius: 50%;
+    background: var(--gold);
+    display: inline-block;
+  }
+
+  h1 {
+    font-family: 'Fraunces', serif;
+    font-weight: 600;
+    font-size: 2.5rem;
+    line-height: 1.1;
+    margin: 0 0 12px;
+    letter-spacing: -0.01em;
+  }
+
+  h1 em {
+    font-style: italic;
+    color: var(--gold);
+    font-weight: 500;
+  }
+
+  p.lede {
+    color: var(--ink-dim);
+    font-size: 1rem;
+    line-height: 1.6;
+    max-width: 46ch;
+    margin: 0 0 36px;
+  }
+
+  .langs {
+    display: flex;
+    gap: 8px;
+    flex-wrap: wrap;
+    margin-bottom: 32px;
+  }
+
+  .lang-tag {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 0.7rem;
+    letter-spacing: 0.04em;
+    padding: 5px 10px;
+    border: 1px solid var(--line);
+    border-radius: 3px;
+    color: var(--ink-dim);
+  }
+
+  form {
+    background: var(--surface);
+    border: 1px solid var(--line);
+    border-radius: 10px;
+    padding: 22px 22px 18px;
+    position: relative;
+  }
+
+  .form-label {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 0.72rem;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--ink-dim);
+    display: block;
+    margin-bottom: 10px;
+  }
+
+  textarea {
+    width: 100%;
+    min-height: 130px;
+    background: var(--bg);
+    border: 1px solid var(--line);
+    border-radius: 6px;
+    color: var(--ink);
+    padding: 14px;
+    font-size: 0.98rem;
+    font-family: 'Inter', sans-serif;
+    line-height: 1.5;
+    resize: vertical;
+  }
+
+  textarea::placeholder { color: #5C7367; }
+
+  textarea:focus {
+    outline: none;
+    border-color: var(--gold-dim);
+  }
+
+  .form-footer {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: 14px;
+    gap: 12px;
+    flex-wrap: wrap;
+  }
+
+  .form-hint {
+    font-size: 0.78rem;
+    color: var(--ink-dim);
+  }
+
+  button {
+    background: var(--gold);
+    color: #17240F;
+    border: none;
+    padding: 11px 24px;
+    font-size: 0.92rem;
+    font-weight: 600;
+    font-family: 'Inter', sans-serif;
+    border-radius: 6px;
+    cursor: pointer;
+    transition: background 0.15s ease;
+  }
+
+  button:hover { background: #E8B255; }
+  button:focus-visible { outline: 2px solid var(--ink); outline-offset: 2px; }
+
+  /* ---- Result: the stamp ---- */
+
+  .result-wrap {
+    margin-top: 34px;
+    padding-top: 30px;
+    border-top: 1px dashed var(--line);
+    display: flex;
+    gap: 22px;
+    align-items: flex-start;
+  }
+
+  .stamp {
+    flex-shrink: 0;
+    width: 108px;
+    height: 108px;
+    border-radius: 50%;
+    border: 3px solid var(--stamp-color, var(--green-ok));
+    color: var(--stamp-color, var(--green-ok));
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    transform: rotate(-8deg);
+    font-family: 'IBM Plex Mono', monospace;
+    font-weight: 600;
+    font-size: 0.72rem;
+    letter-spacing: 0.04em;
+    line-height: 1.25;
+    padding: 10px;
+    position: relative;
+    animation: stampland 0.35s cubic-bezier(.2,1.4,.4,1);
+  }
+
+  .stamp::before {
+    content: "";
+    position: absolute;
+    inset: 6px;
+    border: 1px solid var(--stamp-color, var(--green-ok));
+    border-radius: 50%;
+    opacity: 0.55;
+  }
+
+  @keyframes stampland {
+    0% { transform: rotate(-8deg) scale(1.9); opacity: 0; }
+    60% { opacity: 1; }
+    100% { transform: rotate(-8deg) scale(1); opacity: 1; }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .stamp { animation: none; }
+  }
+
+  .verdict-body { flex: 1; padding-top: 4px; min-width: 200px; }
+
+  .verdict-title {
+    font-family: 'Fraunces', serif;
+    font-weight: 600;
+    font-size: 1.3rem;
+    color: var(--stamp-color, var(--green-ok));
+    margin: 0 0 4px;
+  }
+
+  .verdict-score {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 0.78rem;
+    color: var(--ink-dim);
+    margin-bottom: 16px;
+  }
+
+  .why-label {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 0.7rem;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--ink-dim);
+    margin-bottom: 8px;
+  }
+
+  .why-list {
+    font-size: 0.94rem;
+    line-height: 1.7;
+    color: var(--ink);
+    white-space: pre-line;
+  }
+
+  footer {
+    margin-top: 48px;
+    display: flex;
+    justify-content: space-between;
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 0.72rem;
+    color: #4A6154;
+    border-top: 1px solid var(--line);
+    padding-top: 16px;
+  }
+
+  @media (max-width: 480px) {
+    h1 { font-size: 2rem; }
+    .result-wrap { flex-direction: column; align-items: center; text-align: center; }
+    footer { flex-direction: column; gap: 6px; text-align: center; }
+  }
+</style>
+</head>
+<body>
+  <div class="sheet">
+    <div class="eyebrow">Message verification</div>
+    <h1>Is this message <em>real</em>, or is someone testing you?</h1>
+    <p class="lede">Paste a WhatsApp or SMS message below. We check it against known scam patterns — bank alerts, family emergencies, recharge tricks, and more.</p>
+
+    <div class="langs">
+      <span class="lang-tag">ENGLISH</span>
+      <span class="lang-tag">PIDGIN</span>
+      <span class="lang-tag">YORÙBÁ</span>
+      <span class="lang-tag">IGBO</span>
+      <span class="lang-tag">HAUSA</span>
+    </div>
+
+    <form method="POST">
+      <label class="form-label" for="message">Paste the message</label>
+      <textarea id="message" name="message" placeholder="e.g. Dear Customer, your BVN has been blocked. Call this number now to reactivate...">{{ message_text }}</textarea>
+      <div class="form-footer">
+        <span class="form-hint">Nothing is stored. Checked on this page only.</span>
+        <button type="submit">Check message</button>
+      </div>
+    </form>
+
+    {% if result %}
+      {% set stamp_color = "var(--green-ok)" %}
+      {% set stamp_word = "CLEAR" %}
+      {% if "HIGH RISK" in result.verdict %}
+        {% set stamp_color = "var(--red)" %}
+        {% set stamp_word = "LIKELY SCAM" %}
+      {% elif "SUSPICIOUS" in result.verdict %}
+        {% set stamp_color = "var(--amber)" %}
+        {% set stamp_word = "SUSPICIOUS" %}
+      {% elif "LOW RISK" in result.verdict %}
+        {% set stamp_color = "var(--gold-dim)" %}
+        {% set stamp_word = "MINOR FLAGS" %}
+      {% endif %}
+
+      <div class="result-wrap">
+        <div class="stamp" style="--stamp-color: {{ stamp_color }};">{{ stamp_word }}</div>
+        <div class="verdict-body">
+          <div class="verdict-title" style="color: {{ stamp_color }};">{{ result.verdict }}</div>
+          <div class="verdict-score">RISK SCORE — {{ result.score }}</div>
+          <div class="why-label">Why</div>
+          <div class="why-list">{{ explanation }}</div>
+        </div>
+      </div>
+    {% endif %}
+
+    <footer>
+      <span>v1 · rule-based detection</span>
+      <span>built by Sixtus</span>
+    </footer>
+  </div>
+</body>
+</html>
